@@ -412,15 +412,48 @@ function buildSlide(data, key) {
   };
 }
 
+function HongKongClock() {
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const hongKongTime = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Hong_Kong",
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+    timeZoneName: "short",
+  }).format(now);
+
+  return (
+    <div className="text-xs font-medium text-amber-600">
+      {hongKongTime}
+    </div>
+  );
+}
+
 function Header({ active, setActive }) {
   return (
     <div className="sticky top-0 z-30 flex h-[76px] items-center justify-between border-b border-slate-200/70 bg-white/90 px-5 backdrop-blur-xl">
       <div className="flex min-w-[290px] items-center gap-3">
         <motion.div animate={{ rotate: [0, 8, 0] }} transition={{ duration: 8, repeat: Infinity }} className="grid h-10 w-10 place-items-center rounded-full border border-amber-200 bg-amber-50 text-2xl text-amber-500">☼</motion.div>
         <div>
-          <div className="font-serif text-2xl font-semibold leading-6 tracking-tight text-slate-950">MORNING MEETING</div>
-          <div className="text-xs font-medium text-amber-600">Wednesday, May 28, 2025 • 8:30 AM ET</div>
-        </div>
+  <div className="font-serif text-2xl font-semibold leading-6 tracking-tight text-slate-950">
+    MORNING MEETING
+  </div>
+  <HongKongClock />
+  <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+    made by Nikita Kuznetsov
+  </div>
+</div>
       </div>
 
       <div className="flex h-full items-center gap-7">
